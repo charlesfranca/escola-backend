@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Upload de Video";
+}
+
+@section scripts {
+    <script>
+        function sendVideo(mediaId){
+                    $.ajax({
+                        url: "/courses/savemedia",
+                        type: "post",
+                        data: {
+                            mediaId: mediaId
+                        },
+                        success: function(data){
+                            console.log(data);
+                        }, error: function(err){
+                            
+                        }
+                    });
+                }
+    </script>
+}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Cadastro de Curso</h3>
+  </div>
+  <div class="panel-body">
+    
+    <form method="post">    
+        <div class="form-group">
+            <script samba-upload-widget="samba" src="http://static.sambavideos.sambatech.com/upload/latest/widget.js"></script>
+            <script>
+                var sambaUploadWidget = new SambaUploadWidget({
+                    upload_key: '8dd11ea2439580702bf3bcd479d2ce8e'	
+                }); 
+
+                sambaUploadWidget.wEvents.addEventListener('upload_progress', function(evt) { 
+                    console.log("Progress");
+                    console.log(evt);
+                });
+                sambaUploadWidget.wEvents.addEventListener('upload_completed', function(evt) { 
+                    console.log("Completed");
+                    sendVideo(evt.media.id);
+                    console.log(evt);
+                });
+            </script>
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+    
+  </div>
+</div>

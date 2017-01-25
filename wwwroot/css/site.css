@@ -1,0 +1,86 @@
+body {
+    padding-top: 100px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"]
+{
+    width: 100%;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+  /* Hide captions */
+  .carousel-caption {
+    display: none
+  }
+}
+
+
+/************************************************************************/
+/********************************* SITE *********************************/
+
+
+/********************************* CLASSES *******************************/
+.display-table-cell .display-table-cell-item{
+    display: table-cell;
+}
+
+.align-middle{
+    vertical-align: middle;
+}
+
+.img-icon{
+    height: 30px;
+}
+
+.icon-16{
+    height: 16px;
+}
+
+.icon-24{
+    height: 24px;
+}
+/********************************* CUSTOM *******************************/
+
+
+
+/********************************* HEADER *******************************/
+.navbar{
+    height: 85px;
+    background: #ffffff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 0;
+}
+
+.loged-menu-itens > div{
+    height: 60px;
+    padding-right: 30px;
+}
+
+.loged-menu-itens > div::last-of-type{
+    padding-right: 0;
+}
+/********************************* HEADER *******************************/
+
+
+
+
+
+
+/************************************************************************/

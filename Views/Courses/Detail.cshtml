@@ -1,0 +1,95 @@
+@model EscolaDeVoce.Services.ViewModel.CourseViewModel
+
+@{
+    ViewData["Title"] = "Cadastro de Curso";
+    Guid Id = Guid.Empty;
+    
+    if(Model != null){
+      Id = @Model.Id;
+    }
+}
+
+@section scripts {
+    <script>
+        function sendVideo(mediaId, courseId){
+                    $.ajax({
+                        url: "/courses/savemedia",
+                        type: "post",
+                        data: {
+                            mediaId: mediaId,
+                            courseId: courseId
+                        },
+                        success: function(data){
+                            console.log(data);
+                        }, error: function(err){
+                            
+                        }
+                    });
+                }
+    </script>
+}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Cadastro de Curso</h3>
+  </div>
+  <div class="panel-body">
+    
+    <form asp-controller="Courses" asp-action="Detail" asp-route-id="@Id" method="post">    
+        <div class="form-group">
+            @Html.LabelFor(m => m.name)
+            @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+    <div>
+      <h1>Upload de video</h1>
+      <form method="post">    
+            <div class="form-group">
+                <script samba-upload-widget="samba" src="http://static.sambavideos.sambatech.com/upload/latest/widget.js"></script>
+                <script>
+                    var sambaUploadWidget = new SambaUploadWidget({
+                        upload_key: '8dd11ea2439580702bf3bcd479d2ce8e'	
+                    }); 
+
+                    sambaUploadWidget.wEvents.addEventListener('upload_progress', function(evt) { 
+                        console.log("Progress");
+                        console.log(evt);
+                    });
+                    sambaUploadWidget.wEvents.addEventListener('upload_completed', function(evt) { 
+                        console.log("Completed");
+                        sendVideo(evt.media.id, '@Model.Id');
+                        console.log(evt);
+                    });
+                </script>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+
+    <div>
+        <div id="player"></div>
+        <script samba-player-api="player" type="text/javascript" src="http://player.sambatech.com.br/v3/samba.player.api.js"></script>
+        <script>
+            var player = new SambaPlayer("player", { //player é o ID do elemento html que ele vai inserir o iframe
+                height: 360,
+                width: 640,
+                ph: "3b8e50510d562d8d8b101c66f59bf625",//Player Hash do projeto
+                m: "68318c03ab062dc8370387644deb08b2",//MidiaID
+                playerParams: { //Veja a lista de Parâmetros suportados
+                    enableShare: true,
+                    wideScreen: true
+                },
+                events: { //Funcoes que escutam os eventos do player
+                    "onLoad": function(){}, //Sendo que eventListener deve ser uma função já presente na página
+                    "onStart": function(){},
+                    "onFinish": function(){}
+                }
+            });
+        </script>
+        
+    </div>
+
+  </div>
+</div>

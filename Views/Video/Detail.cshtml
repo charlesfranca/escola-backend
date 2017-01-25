@@ -1,0 +1,31 @@
+@model EscolaDeVoce.Services.ViewModel.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Category Details";
+    Guid Id = Guid.Empty;
+    
+    if(Model != null){
+      Id = @Model.Id;
+    }
+}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Cadastro de Categoria</h3>
+  </div>
+  <div class="panel-body">
+    
+    <!--action="/category/detail/@Model.Id" method="post"-->
+    <form asp-controller="Category" asp-action="Detail" asp-route-id="@Id" method="post">    
+        <div class="form-group">
+            @Html.LabelFor(m => m.name)
+            @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+            <!--<label for="name">Nome</label>
+            <input type="text" name="name" id="name" class="form-control" value="@Model.name" >-->
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>
+
+
