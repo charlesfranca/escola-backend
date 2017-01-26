@@ -33,38 +33,46 @@ namespace EscolaDeVoce.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Detail([Bind("Id,name")]Services.ViewModel.EspecialistViewModel model, ICollection<IFormFile> files)
+        public async Task<IActionResult> Detail([Bind("Id,name,charge,image")]Services.ViewModel.EspecialistViewModel model, ICollection<IFormFile> files)
         {
             var uploads = Path.Combine(_environment.WebRootPath, "images/specialists");
-            foreach (var file in files)
-            {
-                if (file.Length > 0)
+            if(files != null){
+                foreach (var file in files)
                 {
-                    var fileextension = Path.GetExtension(file.FileName);
-                    var filename = Guid.NewGuid().ToString() + fileextension;
-                    model.image = filename;
-
-                    using (var fileStream = new FileStream(Path.Combine(uploads, filename), FileMode.Create))
+                    if (file.Length > 0)
                     {
-                        await file.CopyToAsync(fileStream);
+                        var fileextension = Path.GetExtension(file.FileName);
+                        var filename = Guid.NewGuid().ToString() + fileextension;
+                        model.image = filename;
+
+                        using (var fileStream = new FileStream(Path.Combine(uploads, filename), FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
                     }
                 }
             }
-
+            
             Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.EspecialistViewModel> response = null;
             System.Net.Http.HttpMethod method = System.Net.Http.HttpMethod.Post;
-            if (model.Id != Guid.Empty) method = System.Net.Http.HttpMethod.Put;
+            string url = Helpers.EscolaDeVoceEndpoints.Especialists.get;
+
+            if(model.Id != Guid.Empty) {
+                url += "/" + model.Id.ToString();
+                method = System.Net.Http.HttpMethod.Put;
+            }
 
             response = await ApiRequestHelper.postPutRequest<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.EspecialistViewModel>>(
-                Helpers.EscolaDeVoceEndpoints.Especialists.get + "/" + model.Id.ToString(),
+                url,
                 method,
                 JsonConvert.SerializeObject(model)
             );
 
-            if(method == System.Net.Http.HttpMethod.Post){
-                return RedirectToAction("Detail", new {id = response.data.Id});
+            if((method == System.Net.Http.HttpMethod.Post && response.data != null && response.data.Id != Guid.Empty) || model.Id != Guid.Empty){
+                Guid Id = model.Id != Guid.Empty ? model.Id : response.data.Id;
+                return RedirectToAction("Detail", new {id = Id.ToString()});
             }else{
-                return View(response.data);
+                return RedirectToAction("Index");
             }
         }
 
@@ -89,3 +97,4 @@ namespace EscolaDeVoce.Backend.Controllers
         }
     }
 }
+

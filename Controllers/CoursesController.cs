@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -10,6 +13,11 @@ namespace EscolaDeVoce.Backend.Controllers
 {
     public class CoursesController : BaseController
     {
+        private IHostingEnvironment _environment;
+        public CoursesController(IHostingEnvironment environment)
+        {
+            _environment = environment;
+        }
         public async Task<IActionResult> Detail(string id)
         {
             Guid courseid = Guid.Empty;
@@ -22,19 +30,60 @@ namespace EscolaDeVoce.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Detail([Bind("Id,name")]Services.ViewModel.CourseViewModel model)
+        public async Task<IActionResult> Detail([Bind("Id,name,image")]Services.ViewModel.CourseViewModel model, ICollection<IFormFile> files)
         {
+            var uploads = Path.Combine(_environment.WebRootPath, "images/specialists");
+            if(files != null){
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        var fileextension = Path.GetExtension(file.FileName);
+                        var filename = Guid.NewGuid().ToString() + fileextension;
+                        model.image = filename;
+
+                        using (var fileStream = new FileStream(Path.Combine(uploads, filename), FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+                    }
+                }
+            }
+
             Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CourseViewModel> response = null;
             
             System.Net.Http.HttpMethod method = System.Net.Http.HttpMethod.Post;
-            if (model.Id != Guid.Empty) method = System.Net.Http.HttpMethod.Put;
+            string  url = Helpers.EscolaDeVoceEndpoints.Courses.getCourses;
+            if (model.Id != Guid.Empty) {
+                method = System.Net.Http.HttpMethod.Put;
+                url += "/" + model.Id.ToString();
+            }
 
             response = await ApiRequestHelper.postPutRequest<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CourseViewModel>>(
-                Helpers.EscolaDeVoceEndpoints.Courses.getCourses + "/" + model.Id.ToString(),
+                url,
                 method,
                 JsonConvert.SerializeObject(model)
             );
-            return View(response.data);
+
+            if(model.Id != Guid.Empty || (response.data != null && response.data.Id != Guid.Empty)){
+                var Id = model.Id != Guid.Empty ? model.Id : response.data.Id;
+                return RedirectToAction("Detail", new {id = Id.ToString()});
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("delete/{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CourseViewModel> response = null;
+            System.Net.Http.HttpMethod method = System.Net.Http.HttpMethod.Delete;
+
+            response = await ApiRequestHelper.postPutRequest<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CourseViewModel>>(
+                Helpers.EscolaDeVoceEndpoints.Courses.getCourses + "/" + id.ToString(),
+                method
+            );
+
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Index()

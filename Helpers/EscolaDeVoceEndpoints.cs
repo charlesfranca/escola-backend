@@ -10,8 +10,8 @@ namespace EscolaDeVoce.Backend.Helpers
         // public const string baseUrl = "http://localhost:5000/api/";
         // public const string tokenUrl = "http://localhost:5000/token";
 
-        public const string baseUrl = "http://escolar-api.azurewebsites.net/api/";
-        public const string tokenUrl = "http://escolar-api.azurewebsites.net/token";
+        public const string baseUrl = "http://escola-api.azurewebsites.net/api/";
+        public const string tokenUrl = "http://escola-api.azurewebsites.net/token";
         public class Category{
             public const string getCategories = EscolaDeVoceEndpoints.baseUrl + "categorias";
         }
@@ -37,5 +37,3 @@ namespace EscolaDeVoce.Backend.Helpers
         }
     }
 }
-
-

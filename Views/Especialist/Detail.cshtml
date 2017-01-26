@@ -1,7 +1,7 @@
 @model EscolaDeVoce.Services.ViewModel.EspecialistViewModel
 
 @{
-    ViewData["Title"] = "Category Details";
+    ViewData["Title"] = "Especialist Details";
     Guid Id = Guid.Empty;
     var image = "";
     
@@ -18,12 +18,27 @@
     <h3 class="panel-title">Cadastro de Categoria</h3>
   </div>
   <div class="panel-body">
-    
+    <div>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+        <a asp-controller="Especialist" asp-action="Index" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Lista</a>
+        @if(Model != null){
+        <a asp-controller="Especialist" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Deletar</a>
+        }
+      </div>
+      <br />
     <form asp-controller="Especialist" asp-action="Detail" asp-route-id="@Id" method="post"  enctype="multipart/form-data">    
         <img src="~/images/specialists/@image" style="height: 100px" />
+
+        <input type="hidden" name="image" value="@image">
+
         <div class="form-group">
             @Html.LabelFor(m => m.name)
             @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.charge)
+            @Html.TextBoxFor(m => m.charge, new { @class = "form-control" })
         </div>
 
         <div class="form-group">
@@ -34,5 +49,3 @@
     </form>
   </div>
 </div>
-
-
