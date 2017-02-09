@@ -14,7 +14,12 @@
     <h3 class="panel-title">Cadastro de Categoria</h3>
   </div>
   <div class="panel-body">
-    
+    <a asp-controller="Category" asp-action="Index" class="btn btn-primary"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Lista</a>
+        @if(Model != null){
+        <a href="/category/delete/@Model.Id" class="btn btn-primary"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Deletar</a>
+        }
+      </div>
+      <br />
     <!--action="/category/detail/@Model.Id" method="post"-->
     <form asp-controller="Category" asp-action="Detail" asp-route-id="@Id" method="post">    
         <div class="form-group">

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace EscolaDeVoce.Backend.Controllers
 {
-    public class CategoryController : BaseController
+    public class SchoolController : BaseController
     {
         public async Task<IActionResult> Detail(string id)
         {
