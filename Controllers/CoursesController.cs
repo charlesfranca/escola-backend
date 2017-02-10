@@ -22,7 +22,7 @@ namespace EscolaDeVoce.Backend.Controllers
         {
             Guid courseid = Guid.Empty;
             if(Guid.TryParse(id, out courseid)){
-                var response = await ApiRequestHelper.Get<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CourseViewModel>>(Helpers.EscolaDeVoceEndpoints.Courses.getCourses + "/" + courseid.ToString());
+                var response = await ApiRequestHelper.Get<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CourseViewModel>>(Helpers.EscolaDeVoceEndpoints.Courses.getDetails + "/" + courseid.ToString());
                 return View(response.data);
             }
             
@@ -109,9 +109,11 @@ namespace EscolaDeVoce.Backend.Controllers
             model.thumbs = new List<EscolaDeVoce.Services.ViewModel.ThumbViewModel>();
             model.files = new List<EscolaDeVoce.Services.ViewModel.FileViewModel>();
             model.sambatech_id = mediaId;
+            model.freeVideo = true;
             model.courseId = Guid.Parse(courseId);
             model.name = sambatechresponse.title;
             model.views = 0;
+            model.schoolId = Guid.Parse("4bae4b15-7f18-4106-8be8-12fa9beb2973");
 
             foreach(var v in sambatechresponse.files){
                 EscolaDeVoce.Services.ViewModel.FileViewModel fl = new EscolaDeVoce.Services.ViewModel.FileViewModel();

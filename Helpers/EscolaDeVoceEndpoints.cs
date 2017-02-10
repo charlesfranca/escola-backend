@@ -7,11 +7,11 @@ namespace EscolaDeVoce.Backend.Helpers
 {
     public class EscolaDeVoceEndpoints
     {
-        public const string baseUrl = "http://localhost:5000/api/";
-        public const string tokenUrl = "http://localhost:5000/token";
+        // public const string baseUrl = "http://localhost:5000/api/";
+        // public const string tokenUrl = "http://localhost:5000/token";
 
-        // public const string baseUrl = "http://escola-api.azurewebsites.net/api/";
-        // public const string tokenUrl = "http://escola-api.azurewebsites.net/token";
+        public const string baseUrl = "http://escola-api.azurewebsites.net/api/";
+        public const string tokenUrl = "http://escola-api.azurewebsites.net/token";
         public class Category{
             public const string getCategories = EscolaDeVoceEndpoints.baseUrl + "categorias";
         }
@@ -26,6 +26,7 @@ namespace EscolaDeVoce.Backend.Helpers
 
         public class Courses{
             public const string getCourses = EscolaDeVoceEndpoints.baseUrl + "courses";
+            public const string getDetails = EscolaDeVoceEndpoints.baseUrl + "courses/details";
         }
 
         public class Videos{
