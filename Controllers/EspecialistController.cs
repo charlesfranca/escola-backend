@@ -33,7 +33,7 @@ namespace EscolaDeVoce.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Detail([Bind("Id,name,charge,image")]Services.ViewModel.EspecialistViewModel model, ICollection<IFormFile> files)
+        public async Task<IActionResult> Detail([Bind("Id,name,charge,image,schoolId")]Services.ViewModel.EspecialistViewModel model, ICollection<IFormFile> files)
         {
             var uploads = Path.Combine(_environment.WebRootPath, "images/specialists");
             if(files != null){
