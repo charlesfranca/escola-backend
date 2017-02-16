@@ -30,7 +30,7 @@ namespace EscolaDeVoce.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Detail([Bind("Id,name,image")]Services.ViewModel.CourseViewModel model, ICollection<IFormFile> files)
+        public async Task<IActionResult> Detail([Bind("Id,name,image,free,description,duration,schoolId,categoriesId,views,order")]Services.ViewModel.CourseViewModel model, ICollection<IFormFile> files)
         {
             var uploads = Path.Combine(_environment.WebRootPath, "images/specialists");
             if(files != null){
@@ -99,21 +99,13 @@ namespace EscolaDeVoce.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveMedia(string mediaId, string courseId)
+        public async Task<IActionResult> SaveMedia([Bind("Id,name,url,views,order,sambatech_id,freeVideo,courseId,schoolId,categoriesId")]Services.ViewModel.VideoViewModel model)
         {
-            var sambatechresponse = await ApiRequestHelper.Get<EscolaDeVoce.Backend.ViewModel.VideoSambatech>("http://api.sambavideos.sambatech.com/v1/medias/"+ mediaId +"?access_token=181e463a-034b-4ea5-878b-cea906a5f2e2&pid=6023");
+            var sambatechresponse = await ApiRequestHelper.Get<EscolaDeVoce.Backend.ViewModel.VideoSambatech>("http://api.sambavideos.sambatech.com/v1/medias/"+ model.sambatech_id +"?access_token=181e463a-034b-4ea5-878b-cea906a5f2e2&pid=6023");
 
             EscolaDeVoce.Services.ViewModel.VideoViewModel response = null;
-            var model = new EscolaDeVoce.Services.ViewModel.VideoViewModel();
-            model = new EscolaDeVoce.Services.ViewModel.VideoViewModel();
             model.thumbs = new List<EscolaDeVoce.Services.ViewModel.ThumbViewModel>();
             model.files = new List<EscolaDeVoce.Services.ViewModel.FileViewModel>();
-            model.sambatech_id = mediaId;
-            model.freeVideo = true;
-            model.courseId = Guid.Parse(courseId);
-            model.name = sambatechresponse.title;
-            model.views = 0;
-            model.schoolId = Guid.Parse("4bae4b15-7f18-4106-8be8-12fa9beb2973");
 
             foreach(var v in sambatechresponse.files){
                 EscolaDeVoce.Services.ViewModel.FileViewModel fl = new EscolaDeVoce.Services.ViewModel.FileViewModel();

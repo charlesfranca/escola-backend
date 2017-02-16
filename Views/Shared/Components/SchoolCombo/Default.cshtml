@@ -1,0 +1,10 @@
+@model List<EscolaDeVoce.Services.ViewModel.SchoolViewModel>
+
+@{
+    var id = ViewBag.id;
+}
+<select name="schoolId" id="schoolId">
+    @foreach(var item in Model){
+        <option value="@item.Id">@item.name</option>
+    }
+</select>

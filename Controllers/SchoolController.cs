@@ -14,30 +14,30 @@ namespace EscolaDeVoce.Backend.Controllers
         public async Task<IActionResult> Detail(string id)
         {
             if (id != null){
-                Guid categoryid = Guid.Empty;
-                if(Guid.TryParse(id, out categoryid)){
-                    var response = await ApiRequestHelper.Get<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CategoryViewModel>>(Helpers.EscolaDeVoceEndpoints.Category.getCategories + "/" + categoryid.ToString());
+                Guid schoolid = Guid.Empty;
+                if(Guid.TryParse(id, out schoolid)){
+                    var response = await ApiRequestHelper.Get<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.SchoolViewModel>>(Helpers.EscolaDeVoceEndpoints.School.get + "/" + schoolid.ToString());
                     return View(response.data);
                 }
             }
             
-            return View(new EscolaDeVoce.Services.ViewModel.CategoryViewModel());
+            return View(new EscolaDeVoce.Services.ViewModel.SchoolViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Detail([Bind("Id,name")]Services.ViewModel.CategoryViewModel model)
+        public async Task<IActionResult> Detail([Bind("Id,name,urlparamname,defaultcover")]Services.ViewModel.SchoolViewModel model)
         {
-            Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CategoryViewModel> response = null;
+            Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.SchoolViewModel> response = null;
             
             System.Net.Http.HttpMethod method = System.Net.Http.HttpMethod.Post;
-            var url = Helpers.EscolaDeVoceEndpoints.Category.getCategories;
+            var url = Helpers.EscolaDeVoceEndpoints.School.get;
             if (model.Id != Guid.Empty) {
                 method = System.Net.Http.HttpMethod.Put;
-                url = Helpers.EscolaDeVoceEndpoints.Category.getCategories + "/" + model.Id.ToString();
+                url = Helpers.EscolaDeVoceEndpoints.School.get + "/" + model.Id.ToString();
             }
             
 
-            response = await ApiRequestHelper.postPutRequest<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CategoryViewModel>>(
+            response = await ApiRequestHelper.postPutRequest<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.SchoolViewModel>>(
                 url,
                 method,
                 JsonConvert.SerializeObject(model)
@@ -53,11 +53,11 @@ namespace EscolaDeVoce.Backend.Controllers
         [HttpGet("delete/{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CategoryViewModel> response = null;
+            Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.SchoolViewModel> response = null;
             System.Net.Http.HttpMethod method = System.Net.Http.HttpMethod.Delete;
 
-            response = await ApiRequestHelper.postPutRequest<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.CategoryViewModel>>(
-                Helpers.EscolaDeVoceEndpoints.Category.getCategories + "/" + id.ToString(),
+            response = await ApiRequestHelper.postPutRequest<Infrastructure.ApiResponse<EscolaDeVoce.Services.ViewModel.SchoolViewModel>>(
+                Helpers.EscolaDeVoceEndpoints.School.get + "/" + id.ToString(),
                 method
             ); 
 
@@ -66,7 +66,7 @@ namespace EscolaDeVoce.Backend.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var response = await ApiRequestHelper.Get<Infrastructure.ApiResponse<List<EscolaDeVoce.Services.ViewModel.CategoryViewModel>>>(Helpers.EscolaDeVoceEndpoints.Category.getCategories);
+            var response = await ApiRequestHelper.Get<Infrastructure.ApiResponse<List<EscolaDeVoce.Services.ViewModel.SchoolViewModel>>>(Helpers.EscolaDeVoceEndpoints.School.get);
             return View(response.data);
         }
     }

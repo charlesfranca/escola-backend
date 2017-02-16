@@ -4,20 +4,21 @@
 
 @section scripts {
     <script>
-        function sendVideo(mediaId){
-                    $.ajax({
-                        url: "/courses/savemedia",
-                        type: "post",
-                        data: {
-                            mediaId: mediaId
-                        },
-                        success: function(data){
-                            console.log(data);
-                        }, error: function(err){
-                            
-                        }
-                    });
+        function sendVideo(mediaId, courseId){
+            var dados = $("#newVideo").serialize();
+            dados += "&sambatech_id=" + mediaId;
+            console.log(dados);
+            $.ajax({
+                url: "/courses/savemedia",
+                type: "post",
+                data: dados,
+                success: function(data){
+                    console.log(data);
+                }, error: function(err){
+                    
                 }
+            });
+        }
     </script>
 }
 
@@ -27,27 +28,50 @@
   </div>
   <div class="panel-body">
     
-    <form method="post">    
-        <div class="form-group">
-            <script samba-upload-widget="samba" src="http://static.sambavideos.sambatech.com/upload/latest/widget.js"></script>
-            <script>
-                var sambaUploadWidget = new SambaUploadWidget({
-                    upload_key: '8dd11ea2439580702bf3bcd479d2ce8e'	
-                }); 
+    <div>
+        <h1>Novo vídeo</h1>
+        <form method="post" id="newVideo">
+            <div class="form-group">
+                <label for="name">name</label>
+                <input class="form-control" id="name" name="name" type="text">
+            </div>
+            <div class="form-group">
+                <label for="name">Ordem</label>
+                <input class="form-control" id="order" name="order" type="text">
+            </div>
+            <div class="form-group">
+                <label for="name">Views</label>
+                <input class="form-control" id="views" name="views" type="text">
+            </div>
+            <div class="form-group">
+                <label for="freeVideo">Grátis?</label>
+                <input name="freeVideo" id="freeVideo" type="checkbox" />
+            </div>
+            <div class="form-group">
+                <label for="schoolId">Escola</label>
+                @await Component.InvokeAsync("SchoolCombo")
+            </div>
+            <div class="form-group">
+                <label for="categoriesId">Escola</label>
+                @await Component.InvokeAsync("CategoriesCombo")
+            </div>
+            <div class="form-group">
+                <script samba-upload-widget="samba" src="http://static.sambavideos.sambatech.com/upload/latest/widget.js"></script>
+                <script>
+                    var sambaUploadWidget = new SambaUploadWidget({
+                        upload_key: '8dd11ea2439580702bf3bcd479d2ce8e'	
+                    }); 
 
-                sambaUploadWidget.wEvents.addEventListener('upload_progress', function(evt) { 
-                    console.log("Progress");
-                    console.log(evt);
-                });
-                sambaUploadWidget.wEvents.addEventListener('upload_completed', function(evt) { 
-                    console.log("Completed");
-                    sendVideo(evt.media.id);
-                    console.log(evt);
-                });
-            </script>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+                    sambaUploadWidget.wEvents.addEventListener('upload_progress', function(evt) { 
+                        
+                    });
+                    sambaUploadWidget.wEvents.addEventListener('upload_completed', function(evt) { 
+                        sendVideo(evt.media.id, '');
+                    });
+                </script>
+            </div>
+        </form>
+    </div>
     
   </div>
 </div>

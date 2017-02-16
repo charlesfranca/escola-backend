@@ -1,0 +1,62 @@
+@model List<EscolaDeVoce.Services.ViewModel.SchoolViewModel>
+
+@{
+    ViewData["Title"] = "Categorias";
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            $('#table').DataTable();
+        });
+    </script>
+}
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">Escolas</h3>
+  </div>
+  <div class="panel-body">
+      <div>
+          <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+        <a asp-controller="school" asp-action="Detail" class="btn btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Novo</a>
+      </div>
+      <br />
+    <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Prâmetro url</th>
+                <th>Capa padrão</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Prâmetro url</th>
+                <th>Capa padrão</th>
+                <th>Ações</th>
+            </tr>
+        </tfoot>
+        <tbody>
+        @foreach (var school in Model)
+        {
+            <tr>
+                <td>@school.Id</td>
+                <td>@school.name</td>
+                <td>@school.urlparamname</td>
+                <td>@school.defaultcover</td>
+                <td>
+                    <a href="/school/detail/@school.Id"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a> | 
+                    <a href="/school/delete/@school.Id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+  </div>
+</div>

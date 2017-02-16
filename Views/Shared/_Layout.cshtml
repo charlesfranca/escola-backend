@@ -7,7 +7,9 @@
     
     <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
+    
+    <link  href="/lib/cropper/dist/cropper.css" rel="stylesheet">
+    
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/datatables.net-dt/css/jquery.dataTables.css" />
@@ -24,6 +26,16 @@
     </environment>
 </head>
 <body>
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="/category">Categorias</a>
+        <a href="/courses">Cursos</a>
+        <a href="/school">Escolas</a>
+        <a href="/especialist">Especialistas</a>
+        <a href="/Courses/VideoUpload">Tv Edv</a>
+        <a href="/vitaminae">Vitamina E</a>
+        <a href="/videos">Vídeos</a>
+    </div>
     
     @Html.Partial("_Header")
 
@@ -54,7 +66,19 @@
         </script>
         <script src="~/js/datatables.min.js" asp-append-version="true"></script>
 
+        
+        <script src="/lib/cropper/dist/cropper.js"></script>
+
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+        </script>
     </environment>
 
     @RenderSection("scripts", required: false)

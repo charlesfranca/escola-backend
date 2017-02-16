@@ -14,20 +14,20 @@
 @section scripts {
     <script>
         function sendVideo(mediaId, courseId){
-                    $.ajax({
-                        url: "/courses/savemedia",
-                        type: "post",
-                        data: {
-                            mediaId: mediaId,
-                            courseId: courseId
-                        },
-                        success: function(data){
-                            console.log(data);
-                        }, error: function(err){
-                            
-                        }
-                    });
+            var dados = $("#newVideo").serialize();
+            dados += "&sambatech_id=" + mediaId;
+            console.log(dados);
+            $.ajax({
+                url: "/courses/savemedia",
+                type: "post",
+                data: dados,
+                success: function(data){
+                    console.log(data);
+                }, error: function(err){
+                    
                 }
+            });
+        }
     </script>
 }
 
@@ -54,6 +54,34 @@
             @Html.TextBoxFor(m => m.name, new { @class = "form-control" })
         </div>
         <div class="form-group">
+            <label for="schoolId">Escola</label>
+            @await Component.InvokeAsync("SchoolCombo")
+        </div>
+        <div class="form-group">
+            <label for="categoriesId">Escola</label>
+            @await Component.InvokeAsync("CategoriesCombo")
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.description)
+            @Html.TextBoxFor(m => m.description, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.duration)
+            @Html.TextBoxFor(m => m.duration, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.views)
+            @Html.TextBoxFor(m => m.views, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.free)
+            <input asp-for="free" />
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.order)
+            @Html.TextBoxFor(m => m.order, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
             @Html.LabelFor(m => m.image)
             <input type="file" name="files" id="files" multiple/>
         </div>
@@ -62,8 +90,33 @@
 
     @if(Model != null){
         <div>
-        <h1>Upload de video</h1>
-        <form method="post">    
+            <h1>Novo vídeo</h1>
+            <form method="post" id="newVideo">
+                <input type="hidden" value="@Model.Id" name="courseId" id="courseId" />
+                <div class="form-group">
+                    <label for="name">name</label>
+                    <input class="form-control" id="name" name="name" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="name">Ordem</label>
+                    <input class="form-control" id="order" name="order" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="name">Views</label>
+                    <input class="form-control" id="views" name="views" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="freeVideo">Grátis?</label>
+                    <input name="freeVideo" id="freeVideo" type="checkbox" />
+                </div>
+                <div class="form-group">
+                    <label for="schoolId">Escola</label>
+                    @await Component.InvokeAsync("SchoolCombo")
+                </div>
+                <div class="form-group">
+                    <label for="categoriesId">Escola</label>
+                    @await Component.InvokeAsync("CategoriesCombo")
+                </div>
                 <div class="form-group">
                     <script samba-upload-widget="samba" src="http://static.sambavideos.sambatech.com/upload/latest/widget.js"></script>
                     <script>
@@ -72,13 +125,10 @@
                         }); 
 
                         sambaUploadWidget.wEvents.addEventListener('upload_progress', function(evt) { 
-                            console.log("Progress");
-                            console.log(evt);
+                            
                         });
                         sambaUploadWidget.wEvents.addEventListener('upload_completed', function(evt) { 
-                            console.log("Completed");
                             sendVideo(evt.media.id, '@Model.Id');
-                            console.log(evt);
                         });
                     </script>
                 </div>

@@ -14,6 +14,7 @@
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
+      "wwwroot/js/lib/escoladevoce.js",
       "wwwroot/js/site.js"
     ],
     "minify": {
