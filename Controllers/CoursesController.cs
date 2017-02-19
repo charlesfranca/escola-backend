@@ -93,7 +93,7 @@ namespace EscolaDeVoce.Backend.Controllers
             return View(response.data);
         }
 
-        public async Task<IActionResult> VideoUpload()
+        public IActionResult VideoUpload()
         {
             return View();
         }

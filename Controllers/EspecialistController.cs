@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace EscolaDeVoce.Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Detail([Bind("Id,name,charge,image,schoolId")]Services.ViewModel.EspecialistViewModel model, ICollection<IFormFile> files)
+        public async Task<IActionResult> Detail([Bind("Id,name,charge,image,schoolId")]Services.ViewModel.EspecialistViewModel model, ICollection<IFormFile> files, [Bind("x,y,w,h")]Backend.ViewModel.SizeModel sizeModel)
         {
             var uploads = Path.Combine(_environment.WebRootPath, "images/specialists");
             if(files != null){
@@ -46,6 +47,23 @@ namespace EscolaDeVoce.Backend.Controllers
                         model.image = filename;
 
                         using (var fileStream = new FileStream(Path.Combine(uploads, filename), FileMode.Create))
+                        {
+                            await file.CopyToAsync(fileStream);
+                        }
+
+                        //Cortar imagem
+                        Rectangle cropRect = new Rectangle(sizeModel.x, sizeModel.y, sizeModel.w, sizeModel.h);
+                        Bitmap src = System.Drawing.Image.FromFile(Path.Combine(uploads, filename)) as Bitmap;
+                        Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+
+                        using (Graphics g = Graphics.FromImage(target))
+                        {
+                            g.DrawImage(src, 
+                            new Rectangle(0, 0, target.Width, target.Height), 
+                            cropRect, GraphicsUnit.Pixel);
+                        }
+
+                        using (var fileStream = new FileStream(Path.Combine(uploads, "crp_" + filename), FileMode.Create))
                         {
                             await file.CopyToAsync(fileStream);
                         }

@@ -8,7 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     
-    <link  href="/lib/cropper/dist/cropper.css" rel="stylesheet">
+    <link  href="~/lib/cropper/dist/cropper.css" rel="stylesheet">
+    <link  href="~/js/lib/jcrop/css/jquery.Jcrop.min.css" rel="stylesheet">
     
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -52,8 +53,6 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/lib/datatables.net/js/jquery.dataTables.js" asp-append-version="true"></script>
-
-        <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment names="Staging,Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.3.min.js"
@@ -66,20 +65,20 @@
         </script>
         <script src="~/js/datatables.min.js" asp-append-version="true"></script>
 
-        
-        <script src="/lib/cropper/dist/cropper.js"></script>
-
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-        <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-            }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-            }
-        </script>
     </environment>
+
+    <script src="~/js/lib/jcrop/js/jquery.Jcrop.min.js"></script>
+
+    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
 
     @RenderSection("scripts", required: false)
 </body>

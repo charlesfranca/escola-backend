@@ -33,7 +33,11 @@
       </div>
       <br />
     <form asp-controller="Especialist" asp-action="Detail" asp-route-id="@Id" method="post"  enctype="multipart/form-data">    
-        <img src="~/images/specialists/@image" style="height: 100px" />
+        <img src="~/images/specialists/@image" id="" style="height: 100px" />
+        <input type="hidden" name="x" id="x" />
+        <input type="hidden" name="y" id="y" />
+        <input type="hidden" name="w" id="w" />
+        <input type="hidden" name="h" id="h" />
 
         <input type="hidden" name="image" value="@image">
 
@@ -53,7 +57,7 @@
 
         <div class="form-group">
             @Html.LabelFor(m => m.image)
-            <input type="file" name="files" id="files" onchange="escoladevoce.openimagetocrop(this)" data-imagetochange="#profilePhoto" multiple/>
+            <input type="file" name="files" id="files" onchange="escoladevoce.openimagetocrop(this)" data-imagetochange="#profilePhoto" multiple accept=".jpg,.png,.gif"/>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
     </form>
@@ -69,7 +73,18 @@
         <h4 class="modal-title" id="myModalLabel">Modal title</h4>
       </div>
       <div class="modal-body">
-        <img src="" id="profilePhoto" />
+        <table>
+          <tr>
+            <td>
+              <img src="~/images/specialists/20a6ab96-47a7-45c7-a412-abdbfac85cae.jpg"id="target" alt="Flowers" />
+            </td>
+            <td>
+              <div style="width:100px;height:100px;overflow:hidden;">
+                <img src="~/images/specialists/20a6ab96-47a7-45c7-a412-abdbfac85cae.jpg" id="preview" alt="Preview" class="jcrop-preview" />
+              </div>
+            </td>
+          </tr>
+        </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
