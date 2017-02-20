@@ -27,9 +27,9 @@
         "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
         "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
         "System.Drawing": "1.0.0-beta004",
-        "EscolaDeVoce.Infrastructure": "2.1.0",
-        "EscolaDeVoce.Model": "2.1.0",
-        "EscolaDeVoce.Services": "2.2.0"
+        "EscolaDeVoce.Infrastructure": "2.1.1",
+        "EscolaDeVoce.Model": "2.1.1",
+        "EscolaDeVoce.Services": "2.2.4"
             // "EscolaDeVoce.Infrastructure": {
             //     "target": "project"
             // },
